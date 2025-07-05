@@ -16,13 +16,25 @@ export default async function PostsPage() {
             post={{
               id: post.id,
               postContent: {
-                caption: post.postContent?.caption ?? "Aucun texte disponible",
+                caption:
+                  typeof post.postContent === "object" &&
+                  post.postContent !== null &&
+                  "caption" in post.postContent
+                    ? (post.postContent as { caption?: string }).caption ??
+                      "Aucun texte disponible"
+                    : "Aucun texte disponible",
                 image_url:
-                  post.postContent?.image_url &&
-                  Array.isArray(post.postContent.image_url) &&
-                  post.postContent.image_url[0]
+                  typeof post.postContent === "object" &&
+                  post.postContent !== null &&
+                  "image_url" in post.postContent &&
+                  Array.isArray(
+                    (post.postContent as { image_url?: string[] }).image_url
+                  ) &&
+                  (post.postContent as { image_url?: string[] }).image_url &&
+                  (post.postContent as { image_url?: string[] }).image_url![0]
                     ? `/api/proxy?url=${encodeURIComponent(
-                        post.postContent.image_url[0]
+                        (post.postContent as { image_url?: string[] })
+                          .image_url![0]
                       )}`
                     : "/default-image.png",
                 url: post.urlPost ?? "https://instagram.com/default",
