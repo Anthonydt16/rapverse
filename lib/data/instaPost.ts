@@ -1,7 +1,7 @@
 // lib/data/instaPost.ts
 import { prisma } from "../prisma";
 
-export default async function getInstaPosts(isPending? = false) {
+export default async function getInstaPosts(isPending = false) {
   return await prisma.instaPost.findMany({
     orderBy: {
       createdAt: "desc",
