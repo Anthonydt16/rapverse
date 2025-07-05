@@ -1,11 +1,8 @@
-"use client";
-
 import PostAffiche from "@/components/organism/postAffiche";
 import getInstaPosts from "../../../lib/data/instaPost";
 
 export default async function PostsPage() {
   const instaPosts = await getInstaPosts();
-
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-title glow text-white mb-6 text-center">
