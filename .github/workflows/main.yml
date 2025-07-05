@@ -9,22 +9,50 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      IP: ${{ secrets.IP_VPS }}
+      PORT: ${{ secrets.PORT_VPS }}
+      LOGIN: ${{ secrets.LOGIN_VPS }}
+
     steps:
-      - name: Checkout repo
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H 5.189.186.252 >> ~/.ssh/known_hosts
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ env.IP }}
+          username: ${{ env.LOGIN }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ env.PORT }}
+          script: |
+            # Créer le dossier s'il n'existe pas
+            mkdir -p ~/rapverse
 
-      - name: Deploy to VPS
-        run: |
-          ssh -i ~/.ssh/id_ed25519 root@5.189.186.252 << 'EOF'
+            # Cloner le dépôt si ce n'est pas déjà un repo Git
+            if [ ! -d ~/rapverse/.git ]; then
+              git clone https://github.com/${{ github.repository }} ~/rapverse
+            fi
+
             cd ~/rapverse
             git pull origin main
+
+
+            # Créer ou écraser le fichier .env avec les valeurs secrètes
+            cat > .env <<EOF
+            NODE_ENV=production
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            EOF
+
+            docker compose up -d
+
+            # Installer les dépendances
             npm install
+
+            # Générer les classes Prisma
+            npx prisma generate
+
+            # Appliquer les migrations (prod safe)
+            npx prisma migrate deploy
+
             pm2 restart rapverse || pm2 start npm --name "rapverse" -- start
-          EOF
