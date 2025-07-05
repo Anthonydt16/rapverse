@@ -1,3 +1,4 @@
+import Image from "next/image";
 export const metadata = {
   title: "À propos – RapVerse",
   description: "Tout savoir sur la vision et les valeurs de RapVerse.",
@@ -7,10 +8,13 @@ export default function AboutPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-10 text-white">
       <div className="flex items-center space-x-4 mb-6">
-        <img
+        <Image
           src="/logoBig.png" // ⚠️ à remplacer par ton vrai logo
           alt="Logo RapVerse"
+          width={80}
+          height={80}
           className="w-20 h-20 rounded-full"
+          priority
         />
         <div>
           <h1 className="text-3xl font-title glow tracking-wide">RapVerse</h1>

@@ -14,7 +14,9 @@ export default function NavBar() {
             RAP
             <span className="relative inline-block">
               VERSE
-              <span className="absolute -top-4 left-2 text-2xl">' ' '</span>
+              <span className="absolute -top-4 left-2 text-2xl">
+                &apos; &apos; &apos;
+              </span>
             </span>
           </h1>
         </div>
