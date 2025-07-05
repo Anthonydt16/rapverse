@@ -1,18 +1,18 @@
-import PostAffiche from "@/components/organism/postAffiche";
-import getInstaPosts from "../../lib/data/instaPost";
+"use client";
 
-export default async function Home() {
-  // Fetch Instagram posts data
-  const instaPosts = await getInstaPosts(true);
+import PostAffiche from "@/components/organism/postAffiche";
+import getInstaPosts from "../../../lib/data/instaPost";
+
+export default async function PostsPage() {
+  const instaPosts = await getInstaPosts();
+
   return (
-    <div className="grid gap-4 p-4">
-      <h1 className="text-4xl font-bold text-center mb-8">
-        Bienvenue sur RapVerse
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <h1 className="text-3xl font-title glow text-white mb-6 text-center">
+        Tous les posts
       </h1>
-      <p className="text-lg text-center mb-4">
-        Découvrez les dernières tendances du rap et de la culture urbaine.
-      </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {instaPosts.map((post) => (
           <PostAffiche
             key={post.id}

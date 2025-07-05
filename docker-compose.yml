@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: rapverse_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: rapverse
+      POSTGRES_PASSWORD: rapverse
+      POSTGRES_DB: rapverse_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
