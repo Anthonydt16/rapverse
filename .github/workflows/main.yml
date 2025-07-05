@@ -26,6 +26,11 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ env.PORT }}
           script: |
+            # Installer Node.js et PM2 (garantit accessibilité dans SSH non interactif)
+            apt-get update
+            curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+            apt-get install -y nodejs
+            npm install -g pm2
             # Créer le dossier s'il n'existe pas
             mkdir -p ~/rapverse
 
