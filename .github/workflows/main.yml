@@ -40,7 +40,7 @@ jobs:
             fi
 
             cd ~/rapverse
-            git fetch
+            git pull origin master
 
 
             # Créer ou écraser le fichier .env avec les valeurs secrètes
@@ -61,5 +61,5 @@ jobs:
             npx prisma migrate deploy
 
             npm run build
-            
+
             pm2 restart rapverse || pm2 start npm --name "rapverse" -- start
