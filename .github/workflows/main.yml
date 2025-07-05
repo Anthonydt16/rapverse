@@ -40,7 +40,7 @@ jobs:
             fi
 
             cd ~/rapverse
-            git pull origin main
+            git fetch
 
 
             # Créer ou écraser le fichier .env avec les valeurs secrètes
