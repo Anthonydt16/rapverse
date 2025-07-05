@@ -1,6 +1,7 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import ColorThief from "colorthief";
+import React from "react";
+import Image from "next/image";
+
 interface PostAfficheProps {
   post: {
     id: string;
@@ -17,10 +18,13 @@ export default function PostAffiche({ post }: PostAfficheProps) {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
       <div className="relative w-full h-[500px] rounded-xl overflow-hidden shadow-lg group cursor-pointer">
-        <img
+        <Image
           src={image_url}
           alt="Post Instagram"
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          fill
+          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          sizes="(max-width: 768px) 100vw, 700px"
+          priority
         />
         <div className="absolute bottom-0 left-0 right-0 bg-black opacity-90 p-4">
           <p

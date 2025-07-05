@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,30 +53,24 @@ export default function NavBar() {
           } absolute top-full left-0 w-full bg-black md:static md:block md:w-auto`}
         >
           <ul className="flex flex-col md:flex-row gap-6 text-sm md:text-base font-semibold p-4 md:p-0">
-            <li>
-              <a
-                href="/"
-                className="hover:text-purple-400 transition-colors duration-200"
-              >
-                Accueil
-              </a>
-            </li>
-            <li>
-              <a
-                href="/posts"
-                className="hover:text-purple-400 transition-colors duration-200"
-              >
-                Posts
-              </a>
-            </li>
-            <li>
-              <a
-                href="/about"
-                className="hover:text-purple-400 transition-colors duration-200"
-              >
-                À propos
-              </a>
-            </li>
+            <Link
+              href="/"
+              className="hover:text-purple-400 transition-colors duration-200"
+            >
+              Accueil
+            </Link>
+            <Link
+              href="/posts"
+              className="hover:text-purple-400 transition-colors duration-200"
+            >
+              Posts
+            </Link>
+            <Link
+              href="/about"
+              className="hover:text-purple-400 transition-colors duration-200"
+            >
+              À propos
+            </Link>
           </ul>
         </nav>
       </div>
