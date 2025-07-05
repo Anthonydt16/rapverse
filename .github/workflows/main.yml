@@ -60,4 +60,6 @@ jobs:
             # Appliquer les migrations (prod safe)
             npx prisma migrate deploy
 
+            next build
+            
             pm2 restart rapverse || pm2 start npm --name "rapverse" -- start
