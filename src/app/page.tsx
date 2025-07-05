@@ -1,6 +1,5 @@
 import PostAffiche from "@/components/organism/postAffiche";
 import getInstaPosts from "../../lib/data/instaPost";
-import { Post } from "../../lib/types";
 
 export default async function Home() {
   // Fetch Instagram posts data
