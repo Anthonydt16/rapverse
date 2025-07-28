@@ -22,7 +22,7 @@ export default function PostAffiche({ post }: PostAfficheProps) {
           src={image_url}
           alt="Post Instagram"
           fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="object-contain transition-transform duration-300 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, 700px"
           priority
         />
@@ -32,7 +32,12 @@ export default function PostAffiche({ post }: PostAfficheProps) {
               caption.length > 100 ? "line-clamp-4" : "line-clamp-2"
             }`}
           >
-            {caption}
+            {caption.split("\n").map((line, idx) => (
+              <React.Fragment key={idx}>
+                {line}
+                {idx < caption.split("\n").length - 1 && <br />}
+              </React.Fragment>
+            ))}
           </p>
         </div>
       </div>
