@@ -14,15 +14,15 @@ export default function MentionsLegales() {
             <p>
               <strong>RapVerse</strong>
               <br />
-              Contact :{" "}
+              Contact : KO
               <a
                 href="mailto:ton-email@example.com"
                 className="text-purple-400 hover:underline"
               >
-                ton-email@example.com
+                j'aipasencorefaiszebi@nsm.com
               </a>
               <br />
-              Responsable de la publication : Ton prénom ou pseudo
+              Responsable de la publication : Gogodix
             </p>
           </div>
 
@@ -30,16 +30,17 @@ export default function MentionsLegales() {
             <h2 className="text-2xl font-semibold">Hébergement</h2>
             <p>
               Le site est hébergé par :<br />
-              [Nom de l’hébergeur]
+              contabo.com
               <br />
-              Adresse : [Adresse complète]
+              Adresse : Bayerische Hypo- und Vereinsbank AG Lindwurmstrasse
+              83-85 80337 Munich
               <br />
-              Site web :{" "}
+              Site web :https://contabo.com/
               <a
-                href="https://example.com"
+                href="https://contabo.com/"
                 className="text-purple-400 hover:underline"
               >
-                example.com
+                contabo.com
               </a>
             </p>
           </div>
