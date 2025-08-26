@@ -19,7 +19,7 @@ export default function MentionsLegales() {
                 href="mailto:ton-email@example.com"
                 className="text-purple-400 hover:underline"
               >
-                j'aipasencorefaiszebi@nsm.com
+                j&apos;aipasencorefaiszebi@nsm.com
               </a>
               <br />
               Responsable de la publication : Gogodix
