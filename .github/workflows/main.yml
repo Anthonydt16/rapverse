@@ -13,6 +13,7 @@ jobs:
       IP: ${{ secrets.IP_VPS }}
       PORT: ${{ secrets.PORT_VPS }}
       LOGIN: ${{ secrets.LOGIN_VPS }}
+      GA_ID: ${{ secrets.NEXT_PUBLIC_GA_ID }}
 
     steps:
       - name: Checkout Repository
@@ -47,6 +48,7 @@ jobs:
             cat > .env <<EOF
             NODE_ENV=production
             DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEXT_PUBLIC_GA_ID=${{ env.GA_ID }}
             EOF
 
             docker compose up -d
