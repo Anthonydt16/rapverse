@@ -1,7 +1,7 @@
 // lib/data/instaPost.ts
 import { prisma } from "../prisma";
 
-export default async function getInstaPosts(isPending = false) {
+export async function getInstaPosts(isPending = false) {
   return await prisma.instaPost.findMany({
     orderBy: {
       createdAt: "desc",
@@ -12,5 +12,11 @@ export default async function getInstaPosts(isPending = false) {
     where: {
       pinned: isPending ? true : undefined, // Adjust this condition based on your schema
     },
+  });
+}
+
+export async function getInstaPostById(id: string) {
+  return await prisma.instaPost.findUnique({
+    where: { id },
   });
 }

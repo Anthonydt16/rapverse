@@ -16,7 +16,7 @@ interface PostAfficheProps {
 export default function PostAffiche({ post }: PostAfficheProps) {
   const { caption, image_url, url } = post.postContent;
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer">
+    <a href={url} rel="noopener noreferrer">
       <div className="relative w-full h-[500px] rounded-xl overflow-hidden shadow-lg group cursor-pointer">
         <Image
           src={image_url}

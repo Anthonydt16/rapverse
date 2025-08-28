@@ -1,8 +1,22 @@
+"use client";
 import PostAffiche from "@/components/organism/postAffiche";
-import getInstaPosts from "../../../lib/data/instaPost";
+import { useState, useEffect } from "react";
+import { Post } from "../../../lib/types";
+import Loading from "@/components/atom/loading";
 
-export default async function PostsPage() {
-  const instaPosts = await getInstaPosts();
+export default function PostsPage() {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const instaPosts = await fetch("/api/post").then((res) => res.json());
+      setPosts(instaPosts);
+    };
+    fetchPosts();
+  }, []);
+  if (!posts || posts.length === 0) {
+    return <Loading />;
+  }
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-title glow text-white mb-6 text-center">
@@ -10,7 +24,7 @@ export default async function PostsPage() {
       </h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {instaPosts.map((post) => (
+        {posts.map((post) => (
           <PostAffiche
             key={post.id}
             post={{
@@ -37,7 +51,7 @@ export default async function PostsPage() {
                           .image_url![0]
                       )}`
                     : "/default-image.png",
-                url: post.urlPost ?? "https://instagram.com/default",
+                url: "post/" + post.id,
               },
             }}
           />

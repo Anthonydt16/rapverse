@@ -1,9 +1,25 @@
+"use client";
 import PostAffiche from "@/components/organism/postAffiche";
-import getInstaPosts from "../../lib/data/instaPost";
+import { useState, useEffect } from "react";
+import { Post } from "../../lib/types";
+import Loading from "@/components/atom/loading";
 
-export default async function Home() {
+export default function Home() {
   // Fetch Instagram posts data
-  const instaPosts = await getInstaPosts(true);
+  const [posts, setPosts] = useState<Post[]>([]);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      fetch("/api/post?pinned=true")
+        .then((res) => res.json())
+        .then((instaPosts) => {
+          setPosts(instaPosts);
+        });
+    };
+    fetchPosts();
+  }, []);
+  if (!posts || posts.length === 0) {
+    return <Loading />;
+  }
   return (
     <div className="grid gap-4 p-4">
       <h1 className="text-4xl font-bold text-center mb-8">
@@ -13,7 +29,7 @@ export default async function Home() {
         Découvrez les dernières tendances du rap et de la culture urbaine.
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {instaPosts.map((post) => {
+        {posts.map((post) => {
           // Ensure postContent is the expected object type
           const postContent =
             typeof post.postContent === "object" && post.postContent !== null
@@ -26,15 +42,12 @@ export default async function Home() {
                 id: post.id,
                 postContent: {
                   caption: postContent.caption ?? "Aucun texte disponible",
-                  image_url:
-                    postContent.image_url &&
-                    Array.isArray(postContent.image_url) &&
-                    postContent.image_url[0]
-                      ? `/api/proxy?url=${encodeURIComponent(
-                          postContent.image_url[0]
-                        )}`
-                      : "/default-image.png",
-                  url: post.urlPost ?? "https://instagram.com/default",
+                  image_url: postContent.image_url?.[0]
+                    ? `/api/proxy?url=${encodeURIComponent(
+                        postContent.image_url?.[0] ?? ""
+                      )}`
+                    : "/default-image.png",
+                  url: "post/" + post.id,
                 },
               }}
             />
