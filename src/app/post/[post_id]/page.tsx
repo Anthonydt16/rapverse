@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { notFound, useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Post } from "../../../../lib/types";
 import PostComponent from "@/components/organism/postComponent";
 import Loading from "@/components/atom/loading";
