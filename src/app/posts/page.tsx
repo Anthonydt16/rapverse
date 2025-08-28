@@ -1,6 +1,6 @@
 "use client";
 import PostAffiche from "@/components/organism/postAffiche";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Post } from "../../../lib/types";
 import Loading from "@/components/atom/loading";
 
@@ -9,34 +9,72 @@ export default function PostsPage() {
   const [loading, setLoading] = useState(true);
   const [paginate, setPaginate] = useState(1);
 
+  // Refs pour éviter les closures périmées dans le handler
+  const loadingRef = useRef(loading);
+  const postsLenRef = useRef(0);
+  const paginateRef = useRef(paginate);
+
   useEffect(() => {
-    setLoading(true);
-    const fetchPosts = async () => {
-      const instaPosts = await fetch("/api/post?paginate=" + paginate).then(
-        (res) => res.json()
-      );
-      setPosts((prevPosts) => [...prevPosts, ...instaPosts]);
-      setLoading(false);
-    };
-    fetchPosts();
+    loadingRef.current = loading;
+  }, [loading]);
+  useEffect(() => {
+    postsLenRef.current = posts.length;
+  }, [posts.length]);
+  useEffect(() => {
+    paginateRef.current = paginate;
   }, [paginate]);
 
-  const handlePagination = (newPage: number) => {
-    setPaginate(newPage);
-  };
+  // Fetch avec AbortController + guard
+  useEffect(() => {
+    const controller = new AbortController();
+    const run = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`/api/post?paginate=${paginateRef.current}`, {
+          signal: controller.signal,
+        });
+        const instaPosts: Post[] = await res.json();
+        setPosts((prev) => [...prev, ...instaPosts]);
+      } catch (e) {
+        if ((e as any).name !== "AbortError") console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    run();
+    return () => controller.abort();
+  }, [paginate]);
 
-  window.addEventListener("scroll", () => {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-      !loading &&
-      posts.length >= 6 * paginate
-    ) {
-      handlePagination(paginate + 1);
+  const handlePagination = useCallback(() => {
+    // évite de déclencher si déjà en chargement
+    if (loadingRef.current) return;
+
+    const expectedCount = 6 * paginateRef.current;
+    const hasFilledPage = postsLenRef.current >= expectedCount;
+
+    // bas de page
+    const nearBottom =
+      typeof window !== "undefined" &&
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
+
+    // haut de page (cas “pile 6” au reload)
+    const atTop =
+      typeof window !== "undefined" &&
+      window.scrollY === 0 &&
+      postsLenRef.current === expectedCount;
+
+    if ((nearBottom && hasFilledPage) || atTop) {
+      setPaginate((p) => p + 1);
     }
-    if (!window.scrollY && posts.length === 6 * paginate && !loading) {
-      handlePagination(paginate + 1);
-    }
-  });
+  }, []);
+
+  // 👉 ICI: on accède à window uniquement en client, avec cleanup
+  useEffect(() => {
+    if (typeof window === "undefined") return; // évite SSR
+    const onScroll = () => handlePagination();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [handlePagination]);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
@@ -78,6 +116,7 @@ export default function PostsPage() {
           />
         ))}
       </div>
+
       {loading && (
         <div className="flex justify-center mt-6">
           <Loading />

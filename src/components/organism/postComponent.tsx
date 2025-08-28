@@ -33,8 +33,12 @@ export default function PostComponent({ post }: PostComponentProps) {
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("keydown", onKey);
+      return () => window.removeEventListener("keydown", onKey);
+    }
+    return;
   }, [lightboxOpen, images.length, prev, next]);
 
   return (
