@@ -36,7 +36,7 @@ export default function PostsPage() {
         const instaPosts: Post[] = await res.json();
         setPosts((prev) => [...prev, ...instaPosts]);
       } catch (e) {
-        if ((e as any).name !== "AbortError") console.error(e);
+        if ((e as Error).name !== "AbortError") console.error(e);
       } finally {
         setLoading(false);
       }
