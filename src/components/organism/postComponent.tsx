@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 
 interface PostComponentProps {
@@ -17,9 +17,14 @@ export default function PostComponent({ post }: PostComponentProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  const prev = () =>
-    setActiveIndex((i) => (i - 1 + images.length) % images.length);
-  const next = () => setActiveIndex((i) => (i + 1) % images.length);
+  const prev = useCallback(
+    () => setActiveIndex((i) => (i - 1 + images.length) % images.length),
+    [images.length]
+  );
+  const next = useCallback(
+    () => setActiveIndex((i) => (i + 1) % images.length),
+    [images.length]
+  );
 
   useEffect(() => {
     if (!lightboxOpen) return;
@@ -30,7 +35,7 @@ export default function PostComponent({ post }: PostComponentProps) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [lightboxOpen, images.length]);
+  }, [lightboxOpen, images.length, prev, next]);
 
   return (
     <article className="mx-auto max-w-5xl px-3 sm:px-6 md:px-8 py-6">
