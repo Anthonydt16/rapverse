@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     siteName: "RapVerse",
     images: [
       {
-        url: "/logoBig.png",
+        url: "http://5.189.186.252/logoBig.png",
         width: 1200,
         height: 630,
         alt: "RapVerse - La plateforme ultime pour les passionnés de rap",

@@ -6,17 +6,38 @@ import Loading from "@/components/atom/loading";
 
 export default function PostsPage() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [paginate, setPaginate] = useState(1);
 
   useEffect(() => {
+    setLoading(true);
     const fetchPosts = async () => {
-      const instaPosts = await fetch("/api/post").then((res) => res.json());
-      setPosts(instaPosts);
+      const instaPosts = await fetch("/api/post?paginate=" + paginate).then(
+        (res) => res.json()
+      );
+      setPosts((prevPosts) => [...prevPosts, ...instaPosts]);
+      setLoading(false);
     };
     fetchPosts();
-  }, []);
-  if (!posts || posts.length === 0) {
-    return <Loading />;
-  }
+  }, [paginate]);
+
+  const handlePagination = (newPage: number) => {
+    setPaginate(newPage);
+  };
+
+  window.addEventListener("scroll", () => {
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+      !loading &&
+      posts.length >= 6 * paginate
+    ) {
+      handlePagination(paginate + 1);
+    }
+    if (!window.scrollY && posts.length === 6 * paginate && !loading) {
+      handlePagination(paginate + 1);
+    }
+  });
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-title glow text-white mb-6 text-center">
@@ -57,6 +78,11 @@ export default function PostsPage() {
           />
         ))}
       </div>
+      {loading && (
+        <div className="flex justify-center mt-6">
+          <Loading />
+        </div>
+      )}
     </div>
   );
 }
