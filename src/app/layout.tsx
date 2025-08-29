@@ -4,6 +4,7 @@ import Footer from "@/components/atom/footer";
 import NavBar from "@/components/atom/navbar";
 import Script from "next/script";
 import AnalyticsTracker from "@/components/organism/analyticsTracker";
+import { Suspense } from "react";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -36,8 +37,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className="font-body antialiased">
-        {/* Tracker client (OK dans un Server Component) */}
-        <AnalyticsTracker />
+        <Suspense fallback={null}>
+          <AnalyticsTracker />
+        </Suspense>
 
         <NavBar />
         <main className="max-w-6xl mx-auto px-6 py-8">{children}</main>
