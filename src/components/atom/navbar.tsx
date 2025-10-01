@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,16 +10,27 @@ export default function NavBar() {
     <header className="bg-black border-b border-gray-800 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo centré sur mobile */}
-        <div className="flex items-center justify-center md:justify-start space-x-3 flex-1">
-          <h1 className="text-4xl md:text-5xl font-title glow tracking-wide relative">
-            RAP
-            <span className="relative inline-block">
-              VERSE
-              <span className="absolute -top-4 left-2 text-2xl">
-                &apos; &apos; &apos;
+        <div className="flex items-center justify-center md:justify-start flex-1">
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="relative w-14 h-14 rounded-full overflow-hidden shadow-lg transition-transform group-hover:scale-105 ring-2 ring-purple-400/60">
+              <Image
+                src="/logorapverse.png"
+                alt="Logo RapVerse"
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+            <h1 className="text-4xl md:text-5xl font-title tracking-wide relative text-white">
+              <span className="glow">RAP</span>
+              <span className="relative inline-block text-purple-400 font-extrabold">
+                VERSE
+                <span className="absolute -top-4 left-2 text-2xl text-purple-300 animate-pulse">
+                  &apos; &apos; &apos;
+                </span>
               </span>
-            </span>
-          </h1>
+            </h1>
+          </Link>
         </div>
 
         {/* Menu burger sur mobile */}
