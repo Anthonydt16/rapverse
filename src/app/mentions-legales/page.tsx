@@ -1,4 +1,18 @@
 // app/mentions-legal.tsx
+import { generatePageMetadata } from "../../../lib/metadata";
+
+export const metadata = generatePageMetadata({
+  title: "Mentions Légales – RapVerse",
+  description:
+    "Mentions légales, informations sur l'éditeur, l'hébergement et les conditions d'utilisation de RapVerse.",
+  path: "/mentions-legales",
+  keywords: [
+    "mentions légales",
+    "rapverse",
+    "devopti",
+    "conditions d'utilisation",
+  ],
+});
 
 export default function MentionsLegales() {
   return (
@@ -12,14 +26,14 @@ export default function MentionsLegales() {
           <div>
             <h2 className="text-2xl font-semibold">Éditeur du site</h2>
             <p>
-              <strong>RapVerse</strong>
+              <strong>Devopti</strong>
               <br />
-              Contact : KO
+              Contact :
               <a
-                href="mailto:ton-email@example.com"
+                href="mailto:contact@devopti.fr"
                 className="text-purple-400 hover:underline"
               >
-                j&apos;aipasencorefaiszebi@nsm.com
+                contact@devopti.fr
               </a>
               <br />
               Responsable de la publication : Gogodix
@@ -35,7 +49,7 @@ export default function MentionsLegales() {
               Adresse : Bayerische Hypo- und Vereinsbank AG Lindwurmstrasse
               83-85 80337 Munich
               <br />
-              Site web :https://contabo.com/
+              Site web :
               <a
                 href="https://contabo.com/"
                 className="text-purple-400 hover:underline"

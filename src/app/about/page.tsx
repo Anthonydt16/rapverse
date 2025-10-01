@@ -1,8 +1,22 @@
 import Image from "next/image";
-export const metadata = {
+import { generatePageMetadata } from "../../../lib/metadata";
+
+export const metadata = generatePageMetadata({
   title: "À propos – RapVerse",
-  description: "Tout savoir sur la vision et les valeurs de RapVerse.",
-};
+  description:
+    "Découvrez RapVerse, la plateforme dédiée à l'univers du rap, de l'actu, du foot et des sneakers. Notre vision, nos valeurs et notre équipe.",
+  path: "/about",
+  keywords: [
+    "rap",
+    "hip-hop",
+    "à propos",
+    "équipe",
+    "rapverse",
+    "culture urbaine",
+    "foot",
+    "sneakers",
+  ],
+});
 
 export default function AboutPage() {
   return (

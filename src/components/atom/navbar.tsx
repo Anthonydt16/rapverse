@@ -22,10 +22,10 @@ export default function NavBar() {
               />
             </div>
             <h1 className="text-4xl md:text-5xl font-title tracking-wide relative text-white">
-              <span className="glow">RAP</span>
-              <span className="relative inline-block text-purple-400 font-extrabold">
+              <span>RAP</span>
+              <span className="relative inline-block font-extrabold">
                 VERSE
-                <span className="absolute -top-4 left-2 text-2xl text-purple-300 animate-pulse">
+                <span className="absolute -top-4 left-2 text-2xl text-purple-200 animate-pulse">
                   &apos; &apos; &apos;
                 </span>
               </span>

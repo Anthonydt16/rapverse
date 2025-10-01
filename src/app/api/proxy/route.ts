@@ -25,7 +25,13 @@ export async function GET(req: Request) {
     });
   } catch {
     try {
-      const defaultImageUrl = "/default_image_post.png";
+      const defaultImageUrl = `${
+        req.headers.get("host")?.startsWith("localhost")
+          ? "http://localhost:3000"
+          : "https://" + req.headers.get("host")
+      }/default_img_post.png`;
+      console.log("Fetching default image from:", defaultImageUrl);
+
       const defaultResponse = await fetch(defaultImageUrl);
       if (!defaultResponse.ok) throw new Error("Failed to fetch default image");
 
@@ -40,7 +46,8 @@ export async function GET(req: Request) {
           "Cache-Control": "public, max-age=86400",
         },
       });
-    } catch {
+    } catch (error) {
+      console.error("Error fetching image and default image:", error);
       return NextResponse.json(
         { error: "Error fetching image and default image" },
         { status: 500 }

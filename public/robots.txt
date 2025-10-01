@@ -1,0 +1,32 @@
+# robots.txt pour RapVerse
+# Ce fichier indique aux robots des moteurs de recherche comment crawler le site
+
+# Règles pour tous les robots
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/static/
+Disallow: /*.json$
+
+# Règles spécifiques pour Google
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Règles pour les images Google
+User-agent: Googlebot-Image
+Allow: /
+
+# Règles pour Bing
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Emplacement du sitemap
+Sitemap: https://rapverse.devopti.fr/sitemap.xml
+
+# Délai entre chaque requête (en secondes)
+Crawl-delay: 1

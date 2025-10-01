@@ -5,27 +5,63 @@ import NavBar from "@/components/atom/navbar";
 import Script from "next/script";
 import AnalyticsTracker from "@/components/organism/analyticsTracker";
 import { Suspense } from "react";
+import { seoConfig, structuredData } from "../../lib/seo";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
-  title: "RapVerse",
-  description: "La plateforme ultime pour les passionnés de rap",
+  metadataBase: new URL(seoConfig.siteUrl),
+  title: {
+    default: seoConfig.title,
+    template: `%s | ${seoConfig.siteName}`,
+  },
+  description: seoConfig.description,
+  keywords: seoConfig.keywords,
+  authors: [{ name: seoConfig.author }],
+  creator: seoConfig.author,
+  publisher: seoConfig.author,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "RapVerse",
-    description: "La plateforme ultime pour les passionnés de rap",
-    url: "https://rapverse.com",
-    siteName: "RapVerse",
+    type: "website",
+    locale: seoConfig.locale,
+    url: seoConfig.siteUrl,
+    title: seoConfig.title,
+    description: seoConfig.description,
+    siteName: seoConfig.siteName,
     images: [
       {
-        url: "http://5.189.186.252/logoBig.png",
+        url: seoConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: "RapVerse - La plateforme ultime pour les passionnés de rap",
+        alt: seoConfig.title,
       },
     ],
-    locale: "fr_FR",
-    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seoConfig.title,
+    description: seoConfig.description,
+    images: [seoConfig.ogImage],
+    creator: seoConfig.twitterHandle,
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
+  manifest: "/site.webmanifest",
+  alternates: {
+    canonical: seoConfig.siteUrl,
   },
 };
 
@@ -36,6 +72,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
+      <head>
+        {/* Données structurées JSON-LD pour le SEO */}
+        <Script
+          id="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
+      </head>
       <body className="font-body antialiased">
         <Suspense fallback={null}>
           <AnalyticsTracker />
