@@ -24,9 +24,27 @@ export async function GET(req: Request) {
       },
     });
   } catch {
-    return NextResponse.json(
-      { error: "Error fetching image" },
-      { status: 500 }
-    );
+    try {
+      const defaultImageUrl = "/default_image_post.png";
+      const defaultResponse = await fetch(defaultImageUrl);
+      if (!defaultResponse.ok) throw new Error("Failed to fetch default image");
+
+      const defaultContentType =
+        defaultResponse.headers.get("content-type") || "image/png";
+      const defaultBuffer = await defaultResponse.arrayBuffer();
+
+      return new NextResponse(defaultBuffer, {
+        status: 200,
+        headers: {
+          "Content-Type": defaultContentType,
+          "Cache-Control": "public, max-age=86400",
+        },
+      });
+    } catch {
+      return NextResponse.json(
+        { error: "Error fetching image and default image" },
+        { status: 500 }
+      );
+    }
   }
 }

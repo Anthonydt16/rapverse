@@ -30,7 +30,15 @@ export default function Home() {
       <p className="text-lg text-center mb-4">
         Découvrez les dernières tendances du rap et de la culture urbaine.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div
+        className={`grid gap-6 ${
+          posts.length === 1
+            ? "grid-cols-1"
+            : posts.length === 2
+            ? "grid-cols-2"
+            : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        }`}
+      >
         {posts.length === 0 ? (
           <div className="col-span-4 text-center text-gray-500">
             Aucun post épinglé disponible
